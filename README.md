@@ -22,18 +22,7 @@ No LLMs, GPUs, or heavy infrastructure are required.
 ## 🏗️ Architecture
 
 The application consists of two independent services:
-
-### 1️⃣ Spring Boot Backend (Java)
-- Acts as the orchestration and API layer
-- Exposes REST endpoints for querying incidents
-- Delegates semantic retrieval to the Python service
-- Uses clean DTO-based contracts and layered architecture
-
-### 2️⃣ Python Retrieval Service
-- Loads historical incident data from a `.jsonl` dataset
-- Converts incident text into vector embeddings
-- Stores embeddings in an in-memory FAISS index
-- Performs semantic similarity search to retrieve the most relevant incident
+<img width="1536" height="1024" alt="incident-knowlegde-assistant" src="https://github.com/user-attachments/assets/d83ea6c8-a25b-4156-8f8f-ed3d7c40df66" />
 
 The services communicate synchronously over HTTP.
 
@@ -95,6 +84,7 @@ uvicorn app:app --reload --port 8000
 ### 🔹 Start the Java Spring-Boot
 ```
 cd incident-backend
+mvn clean compile package
 mvn spring-boot:run
 ```
 
