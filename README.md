@@ -89,22 +89,22 @@ Text generation and summarization are intentionally omitted to keep the system l
 ```bash
 cd incident-rag
 pip install -r requirements.txt
-uvicorn app:app --reload --port 8000```
+uvicorn app:app --reload --port 8000
 
 ### 🔹 Start the Java Spring-Boot
 ```bash
 cd incident-backend
-mvn spring-boot:run```
+mvn spring-boot:run
 
 ## Testing the Application
 
 ### API Endpoint on PostMan
 POST request
 ```bash
-http://localhost:8080/api/incidents/query```
+http://localhost:8080/api/incidents/query
 
 ### JSON
 ```bash
 {
   "question": "Scheduled reports failed overnight"
-}```
+}
