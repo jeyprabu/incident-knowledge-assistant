@@ -106,8 +106,10 @@ POST request
 http://localhost:8080/api/incidents/query
 ```
 
-### JSON
-```
-{
-  "question": "Scheduled reports failed overnight"
-}```
+### JSON Questions
+1. {"question": "Scheduled reports failed overnight"}
+2. {"question": "Users were unable to access the system due to authentication problems"}
+3. {"question": "System slowed down during peak traffic hours"}
+4. {"question": "Service outage immediately after deployment"}
+5. {"question": "Order creation failed due to database connection issues"}
+
