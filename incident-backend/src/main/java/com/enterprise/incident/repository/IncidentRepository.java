@@ -1,21 +1,11 @@
 package com.enterprise.incident.repository;
 
-import com.enterprise.incident.model.Incident;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.enterprise.incident.entity.Incident;
 
 @Repository
-public class IncidentRepository {
+public interface IncidentRepository extends JpaRepository<Incident, String> {
 
-    private final Map<String, Incident> store = new ConcurrentHashMap<>();
-
-    public void save(Incident incident) {
-        store.put(incident.getIncidentId(), incident);
-    }
-
-    public Incident findById(String incidentId) {
-        return store.get(incidentId);
-    }
 }

@@ -4,8 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 
 public class IncidentQueryRequestDto {
 
-    @NotBlank
-    private String question;
+	@NotBlank
+	private String question;
+
+	private String service;
+
+	private String severity;
+
+	private String incidentType;
 
 	public String getQuestion() {
 		return question;
@@ -15,5 +21,27 @@ public class IncidentQueryRequestDto {
 		this.question = question;
 	}
 
-    
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
+
+	public String getIncidentType() {
+		return incidentType;
+	}
+
+	public void setIncidentType(String incidentType) {
+		this.incidentType = incidentType;
+	}
 }

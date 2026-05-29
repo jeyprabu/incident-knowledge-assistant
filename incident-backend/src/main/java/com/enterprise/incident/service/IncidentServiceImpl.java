@@ -4,7 +4,7 @@ import com.enterprise.incident.client.RagClient;
 import com.enterprise.incident.dto.IncidentQueryRequestDto;
 import com.enterprise.incident.dto.IncidentQueryResponseDto;
 import com.enterprise.incident.dto.IncidentRequestDto;
-import com.enterprise.incident.model.Incident;
+import com.enterprise.incident.entity.Incident;
 import com.enterprise.incident.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,9 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
-    public IncidentQueryResponseDto queryIncidents(IncidentQueryRequestDto request) {
-        return ragClient.query(request.getQuestion());
+    public IncidentQueryResponseDto queryIncidents(
+            IncidentQueryRequestDto request) {
+
+        return ragClient.query(request);
     }
 }
