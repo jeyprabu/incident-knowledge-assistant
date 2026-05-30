@@ -1,16 +1,10 @@
 package com.enterprise.incident.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
 public class IncidentQueryRequestDto {
 
-	@NotBlank
 	private String question;
-
 	private String service;
-
 	private String severity;
-
 	private String incidentType;
 
 	public String getQuestion() {
@@ -44,4 +38,5 @@ public class IncidentQueryRequestDto {
 	public void setIncidentType(String incidentType) {
 		this.incidentType = incidentType;
 	}
+
 }

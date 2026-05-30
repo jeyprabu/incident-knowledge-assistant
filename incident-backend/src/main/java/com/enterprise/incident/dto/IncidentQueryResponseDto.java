@@ -4,13 +4,13 @@ import java.util.List;
 
 public class IncidentQueryResponseDto {
 
-    private List<IncidentResultDto> results;
+	private List<IncidentResultDto> results;
 
-    public List<IncidentResultDto> getResults() {
-        return results;
-    }
+	public List<IncidentResultDto> getResults() {
+		return results;
+	}
 
-    public void setResults(List<IncidentResultDto> results) {
-        this.results = results;
-    }
+	public void setResults(List<IncidentResultDto> results) {
+		this.results = results;
+	}
 }
