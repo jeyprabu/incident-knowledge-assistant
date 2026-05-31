@@ -1,105 +1,142 @@
 # Incident Knowledge Assistant
 
-An enterprise-style backend application that enables engineers to query historical production incidents using semantic search.  
-The system is designed to retrieve relevant incident details from structured incident reports using a lightweight Retrieval-Augmented approach without relying on large language models (LLMs).
+## Overview
+
+Incident Knowledge Assistant is an enterprise-style incident intelligence platform that enables engineers to semantically search historical production incidents and quickly identify relevant root causes, resolutions, and preventive actions.
+
+The system combines a Java-based API layer with a Python retrieval engine powered by vector embeddings and FAISS similarity search. Incident records are stored in PostgreSQL and indexed into an in-memory vector store during application startup.
+
+The solution is designed to simulate real-world internal engineering tools used by Site Reliability Engineering (SRE), Production Support, and Platform Engineering teams.
 
 ---
 
-## 🚀 Project Overview
+## Architecture
 
-In large-scale enterprise environments, incident knowledge is often scattered across post-mortems, tickets, and documents. This project centralizes that knowledge and enables semantic querying over past incidents to help engineers quickly identify root causes and resolutions.
+### Components
 
-The system is intentionally designed to be:
-- Lightweight
-- CPU-only
-- Laptop-friendly
-- Enterprise-realistic
+### Spring Boot Backend
 
-No LLMs, GPUs, or heavy infrastructure are required.
+* Exposes REST APIs for incident queries
+* Handles request validation and orchestration
+* Communicates with the Python retrieval service using WebClient
+* Returns structured incident responses
 
----
+### Python Retrieval Service
 
-## 🏗️ Architecture
+* Loads incident records from PostgreSQL
+* Generates semantic embeddings using Sentence Transformers
+* Creates a FAISS vector index
+* Performs Top-K semantic retrieval with metadata filtering
 
-The application consists of two independent services:
-<img width="1536" height="1024" alt="incident-knowlegde-assistant" src="https://github.com/user-attachments/assets/d83ea6c8-a25b-4156-8f8f-ed3d7c40df66" />
+### PostgreSQL
 
-The services communicate synchronously over HTTP.
+* Source of truth for incident data
+* Stores incident metadata and resolution history
+* Contains 1,000 historical incident records
 
----
+### FAISS Vector Store
 
-## 📊 Incident Dataset
+* Stores vector embeddings in memory
+* Enables low-latency similarity search
+* Returns semantically relevant incidents
 
-Incidents are stored in **JSON Lines (`.jsonl`)** format.
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/ae1e5542-15ff-4331-8745-27084532537f" />
 
-Each incident contains:
-- Incident ID
-- Service name
-- Severity
-- Description
-- Root cause
-- Resolution
-- Prevention steps
-- Timestamp
 
-This dataset represents realistic enterprise production incidents such as:
-- Database outages
-- Deployment failures
-- Performance degradation
-- Batch job failures
+## Technology Stack
 
----
+### Backend
 
-## 🔍 How Retrieval Works (No LLM)
+* Java 21
+* Spring Boot
+* Maven
 
-1. Incident reports are converted into embedding vectors at startup
-2. Vectors are indexed using FAISS (CPU-only)
-3. User queries are embedded at runtime
-4. The most semantically similar incident is retrieved
-5. Structured incident details are returned as the response
+### Retrieval Service
 
-This is a **retrieval-only RAG-style system**.  
-Text generation and summarization are intentionally omitted to keep the system lightweight.
+* Python
+* FastAPI
+* Sentence Transformers
+* FAISS
+* NumPy
 
----
+### Database
 
-## ⚙️ How to Run the Application
+* PostgreSQL
 
-### 🔹 Prerequisites
-- Java 21
-- Maven
-- Python 3.10+
-- Git
 
----
 
-### 🔹 Start the Python Retrieval Service
+## API
 
+### Query Incidents
+
+**Endpoint**
+
+```http
+POST /api/incidents/query
 ```
+
+### Request
+
+```json
+{
+  "question": "database connection timeout",
+  "severity": "SEV-1",
+  "service": "order-service"
+}
+```
+
+
+## Running the Application
+
+### Prerequisites
+
+* Java 21
+* Maven
+* Python 3.10+
+* PostgreSQL 15+
+* Git
+
+---
+
+### Start PostgreSQL
+
+Create database:
+
+```sql
+CREATE DATABASE incidentdb;
+```
+
+Load incident data into PostgreSQL.
+
+---
+
+### Start Retrieval Service
+
+```bash
 cd incident-rag
+
 pip install -r requirements.txt
+
 uvicorn app:app --reload --port 8000
 ```
 
-### 🔹 Start the Java Spring-Boot
-```
+---
+
+### Start Spring Boot Backend
+
+```bash
 cd incident-backend
-mvn clean compile package
+
 mvn spring-boot:run
 ```
 
-## Testing the Application
+---
 
-### API Endpoint on PostMan
-POST request
-```
-http://localhost:8080/api/incidents/query
-```
+## Performance Characteristics
 
-### JSON Questions
-1. {"question": "Scheduled reports failed overnight"}
-2. {"question": "Users were unable to access the system due to authentication problems"}
-3. {"question": "System slowed down during peak traffic hours"}
-4. {"question": "Service outage immediately after deployment"}
-5. {"question": "Order creation failed due to database connection issues"}
+* 1,000 incident records indexed
+* 10 incident attributes searchable
+* Top-K semantic retrieval
+* Sub-second response times
+* Lightweight CPU-only execution
 
